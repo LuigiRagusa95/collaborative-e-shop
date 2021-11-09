@@ -187,18 +187,16 @@ function handleListChoose() {
         shoppingBadge.innerText = shoppingList.length + 1;
         shoppingBadge.classList.add('active');
         shoppingList.push(filter);
-        console.log(shoppingList);
     });
     addToWishBtn.addEventListener('click', () => {
         wishBadge.innerText = wishList.length + 1;
         wishBadge.classList.add('active');
         wishList.push(filter);
-        console.log(wishList);
     });
 }
 
 shoppingBtn.addEventListener('click', (event) => {
-    productContainer.insertAdjacentHTML('beforeend', endShoppingPopUpTemplate(`Grazie per i tuoi acquisti`, 'Svuota Carrello'));
+    productContainer.insertAdjacentHTML('beforeend', endShoppingPopUpTemplate(shoppingList.length === 0 ? `Hai 0 prodotti nel carello. Continua con gli acquisti` : `Hai ${shoppingList.length} prodotti nel carrello. Grazie per i tuoi acquisti`, shoppingList.length === 0 ? 'Torna indietro' : 'Procedi con gli acquisti'));
     document.getElementById('empty-cart').addEventListener('click', (event) => {
         shoppingList = [];
         shoppingBadge.innerText = shoppingList.length;
@@ -212,4 +210,10 @@ wishListBtn.addEventListener('click', (event) => {
     document.getElementById('empty-cart').addEventListener('click', (event) => {
         document.querySelector('.popup').remove();
     });
+});
+
+document.addEventListener('click', (event) => {
+    if (event.target === document.querySelector('.popup')) {
+        document.querySelector('.popup').remove();
+    }
 });
