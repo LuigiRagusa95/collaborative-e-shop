@@ -1,3 +1,9 @@
+/**
+ * TO-DOS
+ * [x] - 1.gestire la parte grafica (meh)
+ * [ ] - 2.implementare un array per la gestione di tutti gli elementi inseriti nel carrello
+ * [ ] - 3.implementare aggiunta prodotto da cart popup
+ */
 const shoppingBtn = document.getElementById('carrello');
 const wishListBtn = document.getElementById('lista-desideri');
 const productContainer = document.getElementById('product-container');
@@ -105,7 +111,7 @@ const cardTemplate = (props) => {
             <h3 class="product-title">${item.title}</h3>
             <h5 class="product-subtitle">${item.subtitle}</h5>
             <nav class="product-navigation">
-                <h2 class="price">${item.price}</h2>
+                <h2 class="price">€${item.price}</h2>
                 <button class="button button-info">
                     <span>Dettagli</span>
                     <i class="fas fa-info-circle"></i>
@@ -142,13 +148,13 @@ const popUpTemplate = (title, subtitle, description, price) => {
     `;
 };
 
-const endShoppingPopUpTemplate = () => {
+const endShoppingPopUpTemplate = (string, buttonText) => {
     return `
     <div class="popup">
         <div class="popup-container">
-            <h3>Grazie per i tuoi acquisti</h3>
+            <h3 style="text-align:center;">${string}</h3>
             <button class="button button-empty" id="empty-cart">
-                <span>Svuota Carrello</span>
+                <span>${buttonText}</span>
             </button>
         </div>
     </div>
@@ -166,14 +172,14 @@ function handleDetailClick() {
             const filter = products.filter((product) => product.id === parseInt(idx))[0];
             productContainer.insertAdjacentHTML('beforeend', popUpTemplate(filter.title, filter.subtitle, filter.description, filter.price));
             handleListChoose();
-            document.querySelector('.button-close').addEventListener('click', (evt) => {
+            document.querySelector('.button-close').addEventListener('click', () => {
                 document.querySelector('.popup').remove();
             });
         });
     });
 }
 
-function handleListChoose(evt) {
+function handleListChoose() {
     const addToCardBtn = document.getElementById('addToCard');
     const addToWishBtn = document.getElementById('addToWish');
     addToCardBtn.addEventListener('click', () => {
@@ -189,11 +195,18 @@ function handleListChoose(evt) {
 }
 
 shoppingBtn.addEventListener('click', (event) => {
-    productContainer.insertAdjacentHTML('beforeend', endShoppingPopUpTemplate());
+    productContainer.insertAdjacentHTML('beforeend', endShoppingPopUpTemplate(`Grazie per i tuoi acquisti`, 'Svuota Carrello'));
     document.getElementById('empty-cart').addEventListener('click', (event) => {
         shoppingBadgeNumber = 0;
         shoppingBadge.innerText = shoppingBadgeNumber;
         shoppingBadge.classList.remove('active');
+        document.querySelector('.popup').remove();
+    });
+});
+
+wishListBtn.addEventListener('click', (event) => {
+    productContainer.insertAdjacentHTML('beforeend', endShoppingPopUpTemplate(`Continua a sognare`, 'Continua Acquisti'));
+    document.getElementById('empty-cart').addEventListener('click', (event) => {
         document.querySelector('.popup').remove();
     });
 });
