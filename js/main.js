@@ -7,6 +7,7 @@ const shoppingBadge = document.getElementById('shoppingBadge');
 
 let wishBadgeNumber = 0;
 let shoppingBadgeNumber = 0;
+
 const products = [
     {
         id: 1,
