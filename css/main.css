@@ -158,7 +158,7 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    display: none;
+    display: flex;
     position: fixed;
     align-items: center;
     justify-content: center;
@@ -169,6 +169,7 @@ main {
     display: flex;
     padding: 1rem;
     max-width: 32rem;
+    min-width: 32rem;
     position: relative;
     flex-direction: column;
     border-radius: 0.5rem;
@@ -186,6 +187,11 @@ main {
     appearance: none;
     position: absolute;
     border-radius: 0.25rem;
+}
+
+.popup-container .button-empty {
+    width: fit-content;
+    margin-top: 1rem;
 }
 
 .popup .title {

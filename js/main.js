@@ -141,6 +141,19 @@ const popUpTemplate = (title, subtitle, description, price) => {
     `;
 };
 
+const endShoppingPopUpTemplate = () => {
+    return `
+    <div class="popup">
+        <div class="popup-container">
+            <h3>Grazie per i tuoi acquisti</h3>
+            <button class="button button-empty" id="empty-cart">
+                <span>Svuota Carrello</span>
+            </button>
+        </div>
+    </div>
+    `;
+};
+
 productContainer.insertAdjacentHTML('beforeend', cardTemplate(products));
 
 handleDetailClick();
@@ -174,3 +187,13 @@ function handleListChoose(evt) {
         wishBadge.classList.add('active');
     });
 }
+
+shoppingBtn.addEventListener('click', (event) => {
+    productContainer.insertAdjacentHTML('beforeend', endShoppingPopUpTemplate());
+    document.getElementById('empty-cart').addEventListener('click', (event) => {
+        shoppingBadgeNumber = 0;
+        shoppingBadge.innerText = shoppingBadgeNumber;
+        shoppingBadge.classList.remove('active');
+        document.querySelector('.popup').remove();
+    });
+});
