@@ -92,7 +92,7 @@ const cardTemplate = (props) => {
     let card = '';
     props.forEach((item) => {
         card += `
-        <div class="product">
+        <div class="product" data-id="${item.id}">
             <div class="product-image">
                 <img src="./img/${item.url}" alt="img" />
             </div>
@@ -111,4 +111,45 @@ const cardTemplate = (props) => {
     return card;
 };
 
+const popUpTemplate = (title, subtitle, description, price) => {
+    return `
+    <div class="popup active">
+        <div class="popup-container">
+            <button class="button-close"><i class="fas fa-times"></i></button>
+
+            <h3 class="title">${title}</h3>
+            <h5 class="subtitle">${subtitle}</h5>
+            <p class="description">${description}</p>
+            <nav class="detail">
+                <h2 class="price">${price}</h2>
+                <button class="button">
+                    <span>Acquista</span>
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button class="button">
+                    <span>Desideri</span>
+                    <i class="fas fa-star"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+    `;
+};
+
 productContainer.insertAdjacentHTML('beforeend', cardTemplate(products));
+
+handleDetailClick();
+
+function handleDetailClick() {
+    const buttons = document.querySelectorAll('.product-navigation>.button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const idx = event.target.parentNode.parentNode.parentNode.getAttribute('data-id');
+            const filter = products.filter((product) => product.id === parseInt(idx))[0];
+            productContainer.insertAdjacentHTML('beforeend', popUpTemplate(filter.title, filter.subtitle, filter.description, filter.price));
+            document.querySelector('.button-close').addEventListener('click', (evt) => {
+                document.querySelector('.popup').remove();
+            });
+        });
+    });
+}
