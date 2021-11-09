@@ -2,6 +2,11 @@ const shoppingBtn = document.getElementById('carrello');
 const wishListBtn = document.getElementById('lista-desideri');
 const productContainer = document.getElementById('product-container');
 
+const wishBadge = document.getElementById('wishBadge');
+const shoppingBadge = document.getElementById('shoppingBadge');
+
+let wishBadgeNumber = 0;
+let shoppingBadgeNumber = 0;
 const products = [
     {
         id: 1,
@@ -122,11 +127,11 @@ const popUpTemplate = (title, subtitle, description, price) => {
             <p class="description">${description}</p>
             <nav class="detail">
                 <h2 class="price">${price}</h2>
-                <button class="button">
+                <button class="button" id="addToCard">
                     <span>Acquista</span>
                     <i class="fas fa-shopping-cart"></i>
                 </button>
-                <button class="button">
+                <button class="button" id="addToWish">
                     <span>Desideri</span>
                     <i class="fas fa-star"></i>
                 </button>
@@ -147,9 +152,25 @@ function handleDetailClick() {
             const idx = event.target.parentNode.parentNode.parentNode.getAttribute('data-id');
             const filter = products.filter((product) => product.id === parseInt(idx))[0];
             productContainer.insertAdjacentHTML('beforeend', popUpTemplate(filter.title, filter.subtitle, filter.description, filter.price));
+            handleListChoose();
             document.querySelector('.button-close').addEventListener('click', (evt) => {
                 document.querySelector('.popup').remove();
             });
         });
+    });
+}
+
+function handleListChoose(evt) {
+    const addToCardBtn = document.getElementById('addToCard');
+    const addToWishBtn = document.getElementById('addToWish');
+    addToCardBtn.addEventListener('click', () => {
+        shoppingBadgeNumber++;
+        shoppingBadge.innerText = shoppingBadgeNumber;
+        shoppingBadge.classList.add('active');
+    });
+    addToWishBtn.addEventListener('click', () => {
+        wishBadgeNumber++;
+        wishBadge.innerText = wishBadgeNumber;
+        wishBadge.classList.add('active');
     });
 }

@@ -69,6 +69,7 @@ header nav {
 }
 
 .button .badge {
+    display: none;
     width: 1.5rem;
     height: 1.5rem;
     color: #ffffff;
@@ -77,6 +78,10 @@ header nav {
     left: calc(100% - 0.75rem);
     background-color: #ea4335;
     bottom: calc(100% - 0.75rem);
+}
+
+.button .badge.active {
+    display: block;
 }
 
 nav button > i {
