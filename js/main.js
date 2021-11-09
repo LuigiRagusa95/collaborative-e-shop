@@ -11,9 +11,6 @@ const productContainer = document.getElementById('product-container');
 const wishBadge = document.getElementById('wishBadge');
 const shoppingBadge = document.getElementById('shoppingBadge');
 
-let wishBadgeNumber = 0;
-let shoppingBadgeNumber = 0;
-
 const products = [
     {
         id: 1,
@@ -164,12 +161,16 @@ const endShoppingPopUpTemplate = (string, buttonText) => {
 productContainer.insertAdjacentHTML('beforeend', cardTemplate(products));
 handleDetailClick();
 
+let filter = null;
+let wishList = [];
+let shoppingList = [];
+
 function handleDetailClick() {
     const buttons = [...document.querySelectorAll('.product-navigation>.button')];
     buttons.forEach((button) => {
         button.addEventListener('click', (event) => {
             const idx = event.currentTarget.parentElement.parentElement.getAttribute('data-id');
-            const filter = products.filter((product) => product.id === parseInt(idx))[0];
+            filter = products.filter((product) => product.id === parseInt(idx))[0];
             productContainer.insertAdjacentHTML('beforeend', popUpTemplate(filter.title, filter.subtitle, filter.description, filter.price));
             handleListChoose();
             document.querySelector('.button-close').addEventListener('click', () => {
@@ -183,22 +184,24 @@ function handleListChoose() {
     const addToCardBtn = document.getElementById('addToCard');
     const addToWishBtn = document.getElementById('addToWish');
     addToCardBtn.addEventListener('click', () => {
-        shoppingBadgeNumber++;
-        shoppingBadge.innerText = shoppingBadgeNumber;
+        shoppingBadge.innerText = shoppingList.length + 1;
         shoppingBadge.classList.add('active');
+        shoppingList.push(filter);
+        console.log(shoppingList);
     });
     addToWishBtn.addEventListener('click', () => {
-        wishBadgeNumber++;
-        wishBadge.innerText = wishBadgeNumber;
+        wishBadge.innerText = wishList.length + 1;
         wishBadge.classList.add('active');
+        wishList.push(filter);
+        console.log(wishList);
     });
 }
 
 shoppingBtn.addEventListener('click', (event) => {
     productContainer.insertAdjacentHTML('beforeend', endShoppingPopUpTemplate(`Grazie per i tuoi acquisti`, 'Svuota Carrello'));
     document.getElementById('empty-cart').addEventListener('click', (event) => {
-        shoppingBadgeNumber = 0;
-        shoppingBadge.innerText = shoppingBadgeNumber;
+        shoppingList = [];
+        shoppingBadge.innerText = shoppingList.length;
         shoppingBadge.classList.remove('active');
         document.querySelector('.popup').remove();
     });
